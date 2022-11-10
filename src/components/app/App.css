@@ -2,3 +2,8 @@
   margin: 0;
   padding: 0;
 }
+
+.ant-breadcrumb ol{
+  font-size: 12px;
+  margin-bottom: 15px !important;
+}

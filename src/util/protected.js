@@ -5,8 +5,8 @@ import { useLocation, Navigate, Outlet } from 'react-router-dom'
 function Protected() {
     const location = useLocation();
     const auth = useAuth()
-    let path = location.pathname;
-
+    let path = location.pathname;   
+    
     if (path !== '/login') {
         if (auth.isAuth()) {
             return <Outlet />

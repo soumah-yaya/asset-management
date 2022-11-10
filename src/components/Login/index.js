@@ -27,7 +27,7 @@ function Login() {
         // console.log('Success:', values);
         api.post('/login',values)
         .then(({data:res})=>{
-            // console.log(res)
+            console.log(res)
             if (res.meta.status !== 200) return message.error(loginMessage.loginFailed)
             const {token} = res
             auth.signin(token, () => {

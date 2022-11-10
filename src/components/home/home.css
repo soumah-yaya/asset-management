@@ -1,0 +1,32 @@
+.ant-layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #373D41 !important;
+}
+
+.header_title {
+    color: #fff;
+    font-weight: 500;
+}
+
+.ant-layout-sider,
+.ant-menu-inline {
+    color: white;
+    background-color: #333744 !important;
+}
+
+.ant-menu-item-active {
+    color: #1890FF !important;
+    background-color: #333744 !important;
+    border: none !important;
+}
+.toggle-button{
+    background-color: #4A5064;
+    font-size: 10px;
+    line-height: 24px;
+    color:#fff;
+    letter-spacing: 0.2em;
+    text-align: center;
+    cursor: pointer;
+}

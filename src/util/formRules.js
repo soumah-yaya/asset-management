@@ -17,5 +17,19 @@ export const loginFormRules = {
         {
             min: 6, max: 15, message: "长度在6到15个字符"
         }
+    ],
+    email: [
+        {
+            required: true,
+            message: '请输入邮箱'
+
+        }
+    ],
+    mobile: [
+        {
+            required: true,
+            message: '请输入手机号码'
+
+        }
     ]
 }
