@@ -15,10 +15,12 @@ import Rights from '../home/components/Rights';
 
 import './App.css'
 
+
 function App() {
   return (
     <AuthProvider>
       <Routes>
+        
         <Route element={<Protected />}>
 
           <Route path='/login' element={<Login />} />

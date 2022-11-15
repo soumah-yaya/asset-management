@@ -31,7 +31,6 @@ function Home() {
     if(isMounted.current){
     api.get('/menus')
       .then(({ data: res }) => {
-        // console.log(res)
         if(res.meta.status === 200){
           setSideMenuList(res.data)
         } else if (res.meta.status === 401 && res.meta.msg ==="无效的token"){
@@ -70,7 +69,6 @@ function Home() {
 
 // extend only current
   const onOpenChange = (keys) => {
-    console.log('open key',keys)
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);

@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useCallback,useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import BreadCrumb from '../BreadCrumb'
-import { Input, Form, Popconfirm, Card, message, Table, Switch, Button, Tooltip, Space, Modal } from 'antd';
+import { Input, Select, Form, Popconfirm, Card, message, Table, Switch, Button, Tooltip, Space, Modal } from 'antd';
 import SearchBar from '../SearchBar'
 import api from '../../../../request/api'
 import { listMessage } from '../../../../util/string';
 import { EditFilled, DeleteFilled, SettingFilled } from '@ant-design/icons';
-import {loginFormRules} from '../../../../util/formRules'
+import { loginFormRules } from '../../../../util/formRules'
+import ModalBox from '../../../ModalBox';
 
 
 const breadCrumbList = [{
@@ -33,11 +34,15 @@ function Users() {
   });
 
   const [userList, setUserList] = useState([])
+  const [rolesList, setRolesList] = useState([])
   const [total, setTotal] = useState(0);
   const [isAddModalOpen, setAddIsModalOpen] = useState(false);
   const [isEditModalOpen, setEditIsModalOpen] = useState(false);
+  const [isSettingModalOpen, setSettingIsModalOpen] = useState(false);
+  const [userSettingInfo, setUserSettingInfo] = useState({});
   const [userId, setUserId] = useState('')
-  // const 
+  const [newRoleId, setNewRoleId] = useState('')
+
   // table columns
   const columns = [
     {
@@ -77,7 +82,7 @@ function Users() {
           <>
             <Space>
               <Tooltip title="修改" mouseLeaveDelay="0">
-                <Button onClick={()=>handleEditUser(row)} type="primary" size="middle" icon={<EditFilled />} />
+                <Button onClick={() => handleEditUser(row)} type="primary" size="middle" icon={<EditFilled />} />
               </Tooltip>
               {/* <Tooltip title="删除" mouseLeaveDelay="0"> */}
               <Popconfirm
@@ -87,10 +92,10 @@ function Users() {
                 okText="继续"
                 cancelText="取消">
                 <Button onClick={() => handleDeleteUser(row)} type="danger" size="middle" icon={<DeleteFilled />} />
-                </Popconfirm>
+              </Popconfirm>
               {/* </Tooltip> */}
               <Tooltip title="分配角色" mouseLeaveDelay="0">
-                <Button type="warning" size="middle" icon={<SettingFilled />} />
+                <Button type="warning" size="middle" onClick={() => HandleOpenSettingDialogBox(row)} icon={<SettingFilled />} />
               </Tooltip>
             </Space>
           </>
@@ -103,7 +108,7 @@ function Users() {
     api.get('users', { params: queryInfo })
       .then(({ data: res }) => {
         // console.log(res)
-        let {data, meta, total} = res
+        let { data, meta, total } = res
         if (meta.status !== 200) return message.error(listMessage.success)
         setUserList(data.map(user => {
           user.key = user._id;
@@ -125,26 +130,26 @@ function Users() {
     getUserList()
   }, [getUserList])
 
-  const onSwitchChange = ( row) => {
+  const onSwitchChange = (row) => {
     // console.log(row);
     const data = { ...row, mg_state: !row.mg_state };
     // console.log(data.id, data.mg_state)
     api.put(`users/${data._id}/state/${data.mg_state}`)
-    .then(({data:res})=>{
-      // console.log(res);
-      if(res.meta.status === 201) {      
-        getUserList()
-      }
-    })
-    .catch(()=>{
-      console.log('error')
-    })
+      .then(({ data: res }) => {
+        // console.log(res);
+        if (res.meta.status === 201) {
+          getUserList()
+        }
+      })
+      .catch(() => {
+        console.log('error')
+      })
   }
 
-// pagination
-  const handlePageChange = (pagenum, pagesize)=>{
+  // pagination
+  const handlePageChange = (pagenum, pagesize) => {
     // console.log('pagenum: ', pagenum, 'pagesize:', pagesize, 'total:', total)
-    setQueryInfo({...queryInfo,pagenum,pagesize})
+    setQueryInfo({ ...queryInfo, pagenum, pagesize })
   }
 
 
@@ -156,47 +161,47 @@ function Users() {
   const handleAddNewUser = () => {
     setAddIsModalOpen(true);
   }
-// add new user dialog box  
- 
+  // add new user dialog box  
+
   const addHandleOk = () => {
     // setIsModalOpen(false);
-    
+
     addForm.validateFields()
-    .then((value)=>{
-      api.post('/users', value)
-        .then(({ data: res }) => {
-          setAddIsModalOpen(false)
-          getUserList()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+      .then((value) => {
+        api.post('/users', value)
+          .then(({ data: res }) => {
+            setAddIsModalOpen(false)
+            getUserList()
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   };
   const editHandleOk = () => {
     // setIsModalOpen(false);
-    
+
     editForm.validateFields()
-    .then((value)=>{
-      
-      let {mobile, email} = value
+      .then((value) => {
 
-      api.put(`/users/${userId}`, { mobile, email })
-        .then((response) => {
+        let { mobile, email } = value
 
-          setEditIsModalOpen(false)
-          getUserList()
-        })
-        .catch((err) => {
-          console.log('修改用户失败')
-        })
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+        api.put(`/users/${userId}`, { mobile, email })
+          .then((response) => {
+
+            setEditIsModalOpen(false)
+            getUserList()
+          })
+          .catch((err) => {
+            console.log('修改用户失败')
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   };
   const addHandleCancel = () => {
     setAddIsModalOpen(false);
@@ -204,49 +209,90 @@ function Users() {
   const editHandleCancel = () => {
     setEditIsModalOpen(false);
   };
-  
-  // diaolog form
-  
-  const addAfterCloseDialog =()=>{
+
+  // add diaolog form
+
+  const addAfterCloseDialog = () => {
     addForm.resetFields()
   }
-  const editAfterCloseDialog =()=>{
+  const editAfterCloseDialog = () => {
     editForm.resetFields()
   }
 
   // edit user button 
-  const handleEditUser =(row)=>{
-    const {_id:id, username,mobile, email} = row;
+  const handleEditUser = (row) => {
+    const { _id: id, username, mobile, email } = row;
     // fill the form
     editForm.setFieldsValue({ username, mobile, email })
-   
+
     setEditIsModalOpen(true);
     // set current user id
     setUserId(id)
   }
-// handle delete user
-  const handleDeleteUser = (row)=>{
-    console.log(row)
-    let {_id:id} = row
+  // handle delete user
+  const handleDeleteUser = (row) => {
+    let { _id: id } = row
     setUserId(id)
   }
   const deleteConfirm = (e) => {
     // console.log(e);
     api.delete(`users/${userId}`)
-    .then(({data:res}) =>{
-      if(res.meta.status !== 200){
-        message.success('删除失败');
-        return
-      }
-      message.success('删除成功');
-      getUserList()
-    })
-    
+      .then(({ data: res }) => {
+        if (res.meta.status !== 200) {
+          message.success('删除失败');
+          return
+        }
+        message.success('删除成功');
+        getUserList()
+      })
+
   };
   const deleteCancel = (e) => {
-    console.log(e);
     message.error('取消删除了');
   };
+  /*SETTING*/
+  const HandleOpenSettingDialogBox = (row) => {
+    const { _id: id } = row;
+    // set current user id
+    setUserId(id)
+    // get all roles lists
+    api.get('/roles')
+      .then(({ data: res }) => {
+        if (res.meta.status !== 200) return message.error(res.meta.msg)
+        // console.log(res.data)
+        setRolesList(res.data)
+      })
+
+    // console.log(row)
+    setUserSettingInfo(row)
+    setSettingIsModalOpen(true)
+  }
+  const settingHandleOk = () => {
+    
+    api.put(`users/${userId}/role`, { rid: newRoleId })
+    .then(({data:res}) =>{
+      if(res.meta.status !== 201) return message.error(res.meta.msg)
+      message.success(res.meta.msg)
+      getUserList()
+    })
+    setSettingIsModalOpen(false)
+  }
+  const settingHandleCancel = () => {
+    setSettingIsModalOpen(false)
+  }
+  const settingAfterCloseDialog = () => {
+    setUserSettingInfo({})
+    setNewRoleId('')
+    setRolesList([])
+  }
+  // select input
+  const handleChange = (value) => {
+    // console.log(`userId: ${userId}, selected ${value}`);
+    setNewRoleId(value)
+    
+  };
+
+  /*RETURN*/
   return (
     <>
       {/* breadcrumb */}
@@ -264,26 +310,26 @@ function Users() {
             position: ['bottomLeft'],
             total,
             current: queryInfo.pagenum,
-            pageSize:queryInfo.pagesize,
+            pageSize: queryInfo.pagesize,
             showSizeChanger: true,
-            showQuickJumper:true,
-            pageSizeOptions:[1,2,5,10],
-            onChange:handlePageChange,
-            showTotal:total => `一共 ${total} 条`
-            
+            showQuickJumper: true,
+            pageSizeOptions: [1, 2, 5, 10],
+            onChange: handlePageChange,
+            showTotal: total => `一共 ${total} 条`
+
           }}
-         />
-         {/* add user dialog box */}
-          <Modal 
-          title="添加用户" 
-          open={isAddModalOpen} 
-          onOk={addHandleOk} 
+        />
+        {/* add user dialog box */}
+        <ModalBox
+          title="添加用户"
+          isModalOpen={isAddModalOpen}
+          handleOk={addHandleOk}
           cancelText="取消"
           okText="确认"
           okType="primary"
-          onCancel={addHandleCancel}
-          afterClose={addAfterCloseDialog}
-          >
+          handleCancel={addHandleCancel}
+          handleAfterClose={addAfterCloseDialog}        >
+
           <Form
             name="basic"
             labelCol={{
@@ -295,10 +341,10 @@ function Users() {
             initialValues={{
               remember: true,
             }}
-            
+
             autoComplete="off"
             form={addForm}
-          > 
+          >
             <Form.Item
               label="用户名"
               name="username"
@@ -316,12 +362,12 @@ function Users() {
             <Form.Item
               label="邮箱"
               name="email"
-             
+
               rules={
                 loginFormRules.email
               }
             >
-              <Input  />
+              <Input />
             </Form.Item>
             <Form.Item
               label="手机"
@@ -330,20 +376,21 @@ function Users() {
             >
               <Input />
             </Form.Item>
-          </Form> 
-          </Modal>
+          </Form>
 
+        </ModalBox>
         {/* edit user dialog box */}
-        <Modal
+        <ModalBox
           title="修改用户"
-          open={isEditModalOpen}
-          onOk={editHandleOk}
+          isModalOpen={isEditModalOpen}
+          handleOk={editHandleOk}
           cancelText="取消"
           okText="保存"
           okType="primary"
-          onCancel={editHandleCancel}
-          afterClose={editAfterCloseDialog}
+          handleCancel={editHandleCancel}
+          handleAfterClose={editAfterCloseDialog}
         >
+
           <Form
             name="basic"
             labelCol={{
@@ -363,11 +410,11 @@ function Users() {
               label="用户名"
               name="username"
               rules={loginFormRules.username}
-              
+
             >
               <Input disabled />
             </Form.Item>
-            
+
             <Form.Item
               label="邮箱"
               name="email"
@@ -386,7 +433,40 @@ function Users() {
               <Input />
             </Form.Item>
           </Form>
-        </Modal>
+        </ModalBox>
+        {/* SETTING */}
+        <ModalBox
+          title="分配角色"
+          isModalOpen={isSettingModalOpen}
+          handleOk={settingHandleOk}
+          cancelText="取消"
+          okText="确定"
+          okType="primary"
+          handleCancel={settingHandleCancel}
+          handleAfterClose={settingAfterCloseDialog}
+        >
+          <div>
+            <p>当前的用户：{userSettingInfo.username}</p>
+            <p>当前的角色：{userSettingInfo.role_name}</p>
+            <div><span>分配新角色: </span>
+              {/* select input */}
+              <Select
+                placeholder='请选项'                
+                style={{ width: 220 }}
+                onChange={handleChange}
+                
+                options={rolesList.map((item) => {
+                  return {
+                    key: item._id,
+                    value: item._id,
+                    label: item.roleName,
+                  }
+                })
+                }
+              />
+            </div>
+          </div>
+        </ModalBox>
       </Card>
     </>
 
