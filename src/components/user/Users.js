@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import BreadCrumb from '../BreadCrumb'
-import { Input, Select, Form, Popconfirm, Card, message, Table, Switch, Button, Tooltip, Space, Modal } from 'antd';
-import SearchBar from '../SearchBar'
-import api from '../../../../request/api'
-import { listMessage } from '../../../../util/string';
+import React, { useState, useEffect, useCallback } from 'react'
+import BreadCrumb from '../components/BreadCrumb'
+import { Input, Select, Form, Popconfirm, Card, message, Table, Switch, Button, Tooltip, Space } from 'antd';
+import SearchBar from '../components/SearchBar'
+import api from '../../request/api'
+import { listMessage } from '../../util/string';
 import { EditFilled, DeleteFilled, SettingFilled } from '@ant-design/icons';
-import { loginFormRules } from '../../../../util/formRules'
-import ModalBox from '../../../ModalBox';
+import { loginFormRules } from '../../util/formRules'
+import ModalBox from '../components/ModalBox';
 
 
 const breadCrumbList = [{

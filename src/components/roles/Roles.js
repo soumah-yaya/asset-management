@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
-import BreadCrumb from './BreadCrumb'
-import { Form, Tree, Input, Modal, Table, Card, Row, Col, Button, message, Space, Tag, Popconfirm } from 'antd'
-import { CloseOutlined, EditFilled, DeleteFilled, SettingFilled, RightOutlined, DownOutlined, CaretRightOutlined } from '@ant-design/icons';
-import api from '../../../request/api'
-
+import BreadCrumb from '../components/BreadCrumb'
+import { Form, Tree, Input, Modal,  Card, Row, Col, message, Tag, Popconfirm } from 'antd'
+import { CloseOutlined, RightOutlined, DownOutlined, CaretRightOutlined } from '@ant-design/icons';
+import api from '../../request/api'
+import AddButton from '../components/AddButton';
+import SettingButtons from '../components/SettingButtons';
+import Table from '../components/Table'
 let breadCrum_list = [{
   id: 0,
   title: '首页',
@@ -50,7 +52,9 @@ const treeFieldName = {
 
 }
 
-
+/* ------------------------------------------------------ */
+/*                     roles component                    */
+/* ------------------------------------------------------ */
 function Roles() {
   const [rolesList, setRolesList] = useState([])
   const [isAddRoleModalOpen, setIsAddRoleModalOpen] = useState(false);
@@ -109,21 +113,19 @@ function Roles() {
       key: 'operation',
       render(value, row) {
         return (
-          <>
-            <Space>
-              <Button onClick={() => editRoleHandler(row)} type='primary' icon={<EditFilled />}>编辑</Button>
-              <Popconfirm
-                title="此操作将永久删除，是否继续?"
-                onConfirm={confirmDelete}
-                onCancel={cancelDelete}
-                okText="继续"
-                cancelText="取消"
-              >
-                <Button onClick={() => deleteRoleHandler(row)} type='danger' icon={<DeleteFilled />}>删除</Button>
-              </Popconfirm>
-              <Button onClick={() => openSettingRightsDialog(row)} type='warning' icon={<SettingFilled />}>分配权限</Button>
-            </Space>
-          </>
+          <SettingButtons
+            onClick={() => editRoleHandler(row)}
+            edit_text="编辑"
+            popConfirm={confirmDelete}
+            popCancel={cancelDelete}
+            popText="继续"
+            popCancelText="取消"
+            onDelete={() => deleteRoleHandler(row)}
+            delete_text="删除"
+            onSetting={() => openSettingRightsDialog(row)}
+            setting_text="分配权限"
+          />
+         
         )
       }
 
@@ -324,17 +326,12 @@ function Roles() {
       {/* CARD */}
       <Card>
         {/* ADD ROLE BUTTON */}
-        <Row>
-          <Col>
-            <Button onClick={openAddRoleDialog} type='primary'>添加角色</Button>
-          </Col>
-        </Row>
+        <AddButton onClick={openAddRoleDialog} button_text="添加角色"/>
+        
         {/* ROLE TABLE */}
-        <Table
-          bordered style={{ marginTop: 15, fontSize: 12 }}
+        <Table          
           dataSource={rolesList}
           columns={columns}
-
           expandable={{
             expandedRowRender: record => (
 

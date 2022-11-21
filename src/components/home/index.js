@@ -9,7 +9,7 @@ import { Layout } from 'antd';
 import api from '../../request/api'
 import './home.css'
 
-import SideBar from './components/SideBar';
+import SideBar from '../components/SideBar';
 import  useSessionStorage  from '../../hooks/useSessionStorage';
 
 const { Header, Sider, Content } = Layout;
@@ -69,6 +69,7 @@ function Home() {
 
 // extend only current
   const onOpenChange = (keys) => {
+    // console.log('open key',keys)
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);
@@ -76,7 +77,7 @@ function Home() {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
-
+// collapse the sidebar
   const toggleCollpse = () => {
     // console.log(1)
     setCollapsed(!collapsed);
@@ -85,14 +86,14 @@ function Home() {
 
   // Home return
   return (
-    <Layout style={{ height: '100%' }}>
-      {/* header */}
+    <Layout style={{ height: '100%' }}>     
+    { /* ----------------------- header ----------------------- */}
       <Header >
         <h1 className='header_title'>电商后台管理系统</h1>
         <Button type='lightdark' onClick={handleLogout} >退出</Button>
       </Header>
       <Layout>
-        {/* aside */}
+     {/* ----------------------- aside ---------------------- */}
         <Sider collapsed={collapsed}>
           <SideBar 
             toggleCollpse={toggleCollpse}
@@ -106,7 +107,7 @@ function Home() {
           />
           
         </Sider>
-        {/* main content */}
+       {/* -------------------- main content -------------------- */}
         <Content style={{ backgroundColor: "#EAEDF1", padding: '20px' }}>
           <Outlet/>
         </Content>

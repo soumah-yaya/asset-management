@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import api from '../../../request/api'
-import BreadCrumb from './BreadCrumb'
+import api from '../../request/api'
+import BreadCrumb from '../components/BreadCrumb'
 import { Card, message, Table, Tag } from 'antd'
 let breadCrum_list = [{
   id: 0,

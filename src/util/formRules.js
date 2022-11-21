@@ -31,5 +31,12 @@ export const loginFormRules = {
             message: '请输入手机号码'
 
         }
-    ]
+    ],
+    cateName: [
+        {
+            required: true,
+            message: '请输入分类名称'
+
+        }
+    ],
 }

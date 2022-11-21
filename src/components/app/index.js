@@ -1,5 +1,5 @@
 // import './app.css';
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 // context
 import { AuthProvider } from '../../context/loginContext';
 
@@ -8,10 +8,11 @@ import PageNotFound from '../pageNotFound';
 // login
 import Login from '../Login/index'
 import Home from '../home/index';
-import Welcome from '../home/components/welcome';
-import Users from '../home/components/user/Users';
-import Roles from '../home/components/Roles';
-import Rights from '../home/components/Rights';
+import Welcome from '../welcome';
+import Users from '../user/Users';
+import Roles from '../roles/Roles';
+import Rights from '../rights/Rights';
+import Cate from '../goods/Cate';
 
 import './App.css'
 
@@ -29,6 +30,7 @@ function App() {
             <Route path='users' element={<Users />} />
             <Route path='roles' element={<Roles />} />
             <Route path='rights' element={<Rights />} />
+            <Route path='categories' element={<Cate />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />

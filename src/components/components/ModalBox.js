@@ -1,14 +1,14 @@
 import React from 'react'
 import {Modal} from 'antd'
-function ModalBox({title, cancelText, okText, okType, isModalOpen, handleOk, handleCancel,handleAfterClose,children}) {
+function ModalBox({title, cancelText, okText, okType ="primary", isModalOpen, handleOk, handleCancel,handleAfterClose,children}) {
   return (
       <Modal
-          title="添加用户"
+          title={title}
           open={isModalOpen}
           onOk={handleOk}
-          cancelText="取消"
-          okText="确认"
-          okType="primary"
+          cancelText={cancelText}
+          okText={okText}
+          okType={okType}
           onCancel={handleCancel}
           afterClose={handleAfterClose}
       >
