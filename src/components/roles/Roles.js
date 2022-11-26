@@ -36,12 +36,7 @@ const treeReducer = (state, action) => {
         selectedKeys: action.payload.checkedKeys,
         rids:action.payload.rids        
       }
-    case 'UPDATE_ROLE_ID':
-      return {
-        ...state,       
-        roleId: action.payload.rowId,                
-      }
-
+    
     default: break;
   }
 }
@@ -116,11 +111,11 @@ function Roles() {
           <SettingButtons
             onClick={() => editRoleHandler(row)}
             edit_text="编辑"
-            popConfirm={confirmDelete}
+            popConfirm={() => confirmDelete(row) }
             popCancel={cancelDelete}
             popText="继续"
             popCancelText="取消"
-            onDelete={() => deleteRoleHandler(row)}
+           
             delete_text="删除"
             onSetting={() => openSettingRightsDialog(row)}
             setting_text="分配权限"
@@ -205,16 +200,9 @@ function Roles() {
     editRoleForm.resetFields()
   }
   /* DELETE ROLE */
-  const deleteRoleHandler = (row) => {
-    treeDispatch({
-      type:'UPDATE_ROLE_ID',
-      payload:{
-        rids: row._id
-      }
-    })
-  }
-  const confirmDelete = (e) => {
-    api.delete(`roles/${treeState.roleId}`)
+  
+  const confirmDelete = (row) => {
+    api.delete(`roles/${row._id}`)
       .then(({ data: res }) => {
         if (res.meta.status !== 200) {
           return message.error('删除失败');

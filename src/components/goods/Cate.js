@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { Card, Tag, message, Form, Input, Cascader, Popconfirm } from 'antd'
+import { Card, Tag, message, Form, Input, Cascader } from 'antd'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import BreadCrumb from '../components/BreadCrumb'
 import AddButton from '../components/AddButton'
@@ -23,7 +23,7 @@ let breadCrum_list = [{
   path: null
 }, {
   id: 2,
-  title: '商品分类',
+  title: '参数列表',
   path: null
 },
 ]

@@ -15,6 +15,7 @@ import Rights from '../rights/Rights';
 import Cate from '../goods/Cate';
 
 import './App.css'
+import Params from '../goods/Params';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path='roles' element={<Roles />} />
             <Route path='rights' element={<Rights />} />
             <Route path='categories' element={<Cate />} />
+            <Route path='attributes' element={<Params />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />
