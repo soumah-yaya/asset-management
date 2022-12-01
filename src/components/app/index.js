@@ -14,8 +14,11 @@ import Roles from '../roles/Roles';
 import Rights from '../rights/Rights';
 import Cate from '../goods/Cate';
 
+
 import './App.css'
 import Params from '../goods/Params';
+import List from '../goods/List';
+import Add from '../goods/Add';
 
 
 function App() {
@@ -33,6 +36,8 @@ function App() {
             <Route path='rights' element={<Rights />} />
             <Route path='categories' element={<Cate />} />
             <Route path='attributes' element={<Params />} />
+            <Route path='goods' element={<List />} />
+            <Route path='goods/add' element={<Add />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />

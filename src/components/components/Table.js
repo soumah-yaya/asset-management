@@ -8,7 +8,7 @@ function Table({ dataSource, columns, expandable, pagination }) {
           dataSource={dataSource}
           columns={columns}
           expandable={expandable}
-      pagination={pagination}
+          pagination={pagination}
 
       />
   )

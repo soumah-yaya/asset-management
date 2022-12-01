@@ -7,3 +7,11 @@
   font-size: 12px;
   margin-bottom: 15px !important;
 }
+.ant-steps {
+  margin: 15px 0 !important;
+}
+.quill {
+  height: 300px;
+  margin-bottom: 50px;
+  display: block;
+}

@@ -40,3 +40,30 @@ export const loginFormRules = {
         }
     ],
 }
+
+export const tabsFormRules = {
+    goodsName: [
+        {
+            required: true,
+            message: '请输入商品名称'
+        }
+    ],
+    goodsPrice: [
+        {
+            required: true,
+            message: '请输入商品价格'
+        }
+    ],
+    goodsWeight: [
+        {
+            required: true,
+            message: '请输入商品重量'
+        }
+    ],
+    goodsNumber: [
+        {
+            required: true,
+            message: '请输入商品数量'
+        }
+    ],
+}

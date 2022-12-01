@@ -5,6 +5,8 @@ import App from './components/App/index';
 import './assets/css/global.css'
 import './assets/css/color.css'
 import 'antd-button-color/dist/css/style.css';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
