@@ -40,6 +40,21 @@ export const loginFormRules = {
         }
     ],
 }
+export const EditOrderFormRules = {
+    address1: [
+        {
+            required: true,
+            message: '请选择省市县',
+        },
+    ],
+    address2: [
+        {
+            required: true,
+            message: '请选择详细地址',
+        },
+    ],
+   
+}
 
 export const tabsFormRules = {
     goodsName: [

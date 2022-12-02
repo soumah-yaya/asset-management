@@ -19,6 +19,7 @@ import './App.css'
 import Params from '../goods/Params';
 import List from '../goods/List';
 import Add from '../goods/Add';
+import Order from '../order/Order';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path='attributes' element={<Params />} />
             <Route path='goods' element={<List />} />
             <Route path='goods/add' element={<Add />} />
+            <Route path='orders' element={<Order />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />

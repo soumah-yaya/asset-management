@@ -5,7 +5,7 @@ const { Search } = Input;
 
 
 
-function SearchBar({  handleAddNewUser, onSearch, text, placeHoleder, width=400 }) {
+function SearchBar({  handleAddNewUser, onSearch, text, placeHoleder="请输入内容", width=400 }) {
   return (
       <Space size="large">
       <Search allowClear placeholder={placeHoleder} onSearch={onSearch} style={{ width}} />
