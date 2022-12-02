@@ -20,6 +20,7 @@ import Params from '../goods/Params';
 import List from '../goods/List';
 import Add from '../goods/Add';
 import Order from '../order/Order';
+import Report from '../report/Report';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path='goods' element={<List />} />
             <Route path='goods/add' element={<Add />} />
             <Route path='orders' element={<Order />} />
+            <Route path='reports' element={<Report />} />
           </Route>
         </Route>
         <Route path='*' element={<PageNotFound />} />
