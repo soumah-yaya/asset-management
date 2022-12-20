@@ -1,1 +1,1 @@
-# >E-commerce asset Management System
+# E-commerce asset Management System
